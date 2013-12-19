@@ -169,7 +169,7 @@ final class SnappyDecompressor
                 {
                     int spaceLeft = outputLimit - opIndex;
                     int srcIndex = opIndex - copyOffset;
-                    if (srcIndex < outputOffset) {
+                    if (copyOffset <= 0 || srcIndex < outputOffset) {
                         throw new CorruptionException("Invalid copy offset for opcode starting at " + (ipIndex - trailerBytes - 1));
                     }
 
