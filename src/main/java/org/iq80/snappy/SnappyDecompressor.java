@@ -34,6 +34,9 @@ final class SnappyDecompressor
     public static byte[] uncompress(byte[] compressed, int compressedOffset, int compressedSize)
             throws CorruptionException
     {
+        SnappyInternalUtils.checkArgument((compressedOffset >= 0) && (compressedOffset + compressedSize <= compressed.length),
+                "Compressed offset %d and size %d must be in 0..%d", compressedOffset, compressedSize, compressed.length);
+
         // Read the uncompressed length from the front of the compressed input
         int[] varInt = readUncompressedLength(compressed, compressedOffset);
         int expectedLength = varInt[0];
@@ -63,6 +66,11 @@ final class SnappyDecompressor
     public static int uncompress(byte[] compressed, int compressedOffset, int compressedSize, byte[] uncompressed, int uncompressedOffset)
             throws CorruptionException
     {
+        SnappyInternalUtils.checkArgument((compressedOffset >= 0) && (compressedOffset + compressedSize <= compressed.length),
+                "Compressed offset %d and size %d must be in 0..%d", compressedOffset, compressedSize, compressed.length);
+        SnappyInternalUtils.checkArgument((uncompressedOffset >= 0) && (uncompressedOffset < uncompressed.length),
+                "Uncompressed offset %d must be in 0..%d", uncompressedOffset, uncompressed.length);
+
         // Read the uncompressed length from the front of the compressed input
         int[] varInt = readUncompressedLength(compressed, compressedOffset);
         int expectedLength = varInt[0];
