@@ -76,6 +76,11 @@ final class SnappyCompressor
             final byte[] compressed,
             final int compressedOffset)
     {
+        SnappyInternalUtils.checkArgument((uncompressedOffset >= 0) && (uncompressedOffset + uncompressedLength <= uncompressed.length),
+                "Uncompressed offset %d and size %d must be in 0..%d", uncompressedOffset, uncompressedLength, uncompressed.length);
+        SnappyInternalUtils.checkArgument((compressedOffset >= 0) && (compressedOffset < compressed.length),
+                "Compressed offset %d must be in 0..%d", compressed, compressed.length);
+
         // First write the uncompressed size to the output as a variable length int
         int compressedIndex = writeUncompressedLength(compressed, compressedOffset, uncompressedLength);
 
